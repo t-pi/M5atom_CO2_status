@@ -60,7 +60,7 @@ void digit_to_buf(byte number, byte rot_count) {
     memcpy(digit_buf, rotate_buffer90(digit_buf), sizeof(empty));
 }
 
-// MERGE_TO_RIGHT 0, MERGE_TO_BOTTOM 1, MERGE_TO_LEFT 2,  MERGE_TO_TOP 3
+// SCROLL_LEFT_MERGE_TO_RIGHT 0, SCROLL_TOP_MERGE_TO_BOTTOM 1, SCROLL_RIGHT_MERGE_TO_LEFT 2,  SCROLL_BOTTOM_MERGE_TO_TOP 3
 void merge_buffers(unsigned char *target, int *target_width, int *target_height, byte merge_direction) {
     unsigned char *first, *second;
     int first_width, first_height, second_width, second_height;
@@ -73,7 +73,7 @@ void merge_buffers(unsigned char *target, int *target_width, int *target_height,
     }
 
     switch (merge_direction) {
-        case MERGE_TO_RIGHT:
+        case SCROLL_LEFT_MERGE_TO_RIGHT:
             first = target;
             first_width = *target_width;
             first_height = *target_height;
@@ -82,7 +82,7 @@ void merge_buffers(unsigned char *target, int *target_width, int *target_height,
             second_height = DIGIT_HEIGHT;
             line_merge = true;
             break;
-        case MERGE_TO_BOTTOM:
+        case SCROLL_TOP_MERGE_TO_BOTTOM:
             first = target;
             first_width = *target_width;
             first_height = *target_height;
@@ -91,7 +91,7 @@ void merge_buffers(unsigned char *target, int *target_width, int *target_height,
             second_height = DIGIT_HEIGHT;
             line_merge = false;
             break;
-        case MERGE_TO_LEFT:
+        case SCROLL_RIGHT_MERGE_TO_LEFT:
             first = digit_buf;
             first_width = DIGIT_WIDTH;
             first_height = DIGIT_HEIGHT;
@@ -100,7 +100,7 @@ void merge_buffers(unsigned char *target, int *target_width, int *target_height,
             second_height = *target_height;
             line_merge = true;
             break;
-        case MERGE_TO_TOP:
+        case SCROLL_BOTTOM_MERGE_TO_TOP:
             first = digit_buf;
             first_width = DIGIT_WIDTH;
             first_height = DIGIT_HEIGHT;
@@ -126,9 +126,9 @@ void merge_buffers(unsigned char *target, int *target_width, int *target_height,
 
 
 // 0xGGRRBB
-void matrix_fill(long color) {
+void matrix_fill(long color_GGRRBB) {
     for (int i = 0; i < 25; i++)
     {
-      M5.dis.drawpix(i,color);
+      M5.dis.drawpix(i,color_GGRRBB);
     }
 }
